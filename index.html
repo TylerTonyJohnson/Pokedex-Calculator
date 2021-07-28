@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Pokedex Calculator</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+    />
+  </head>
+
+  <body>
+    <header>
+      <!-- HEADER -->
+      <h1></h1>
+    </header>
+
+    <main>
+      <!-- MAIN -->
+      <div id="pokedex" class="pokedex">
+        <img
+          id="pokedex-body"
+          draggable="false"
+          src="https://vectr.com/splinterbl/am6mb5JYj.svg?width=720&height=510&select=am6mb5JYjpage0"
+        />
+        <div id="result-screen" class="result-screen">
+          <!-- Hello this is where results are and I know -->
+        </div>
+        <div id="green-screen" class="green-screen">
+          <img
+            id="pokemap"
+            src="assets/images/pokemap.gif"
+            class="pokemap"
+            alt="map"
+            draggable="false"
+          />
+        </div>
+        <div id="expression-screen" class="expression-screen">
+          <!-- Expression here -->
+        </div>
+        <div id="num-keys" class="num-keys">
+          <button id="num-key-1" class="num-key" name="1" type="button">
+            1
+          </button>
+          <button id="num-key-2" class="num-key" name="2" type="button">
+            2
+          </button>
+          <button id="num-key-3" class="num-key" name="3" type="button">
+            3
+          </button>
+          <button id="num-key-4" class="num-key" name="4" type="button">
+            4
+          </button>
+          <button id="num-key-5" class="num-key" name="5" type="button">
+            5
+          </button>
+          <button id="num-key-6" class="num-key" name="6" type="button">
+            6
+          </button>
+          <button id="num-key-7" class="num-key" name="7" type="button">
+            7
+          </button>
+          <button id="num-key-8" class="num-key" name="8" type="button">
+            8
+          </button>
+          <button id="num-key-9" class="num-key" name="9" type="button">
+            9
+          </button>
+          <button id="num-key-0" class="num-key" name="0" type="button">
+            0
+          </button>
+        </div>
+        <div id="arrow-keys" class="arrow-keys">
+          <button id="back-key" class="arrow-key" type="button">
+            <span class="material-icons">arrow_left</span>
+          </button>
+          <button id="period-key" class="arrow-key" name="." type="button">
+            &#183;
+          </button>
+        </div>
+        <div id="op-keys" class="op-keys">
+          <button id="plus-key" class="op-key" name="+" type="button">
+            &#43;
+          </button>
+          <button id="minus-key" class="op-key" name="-" type="button">
+            &#8722;
+          </button>
+          <button id="multiply-key" class="op-key" name="*" type="button">
+            &#215;
+          </button>
+          <button id="divide-key" class="op-key" name="/" type="button">
+            &#247;
+          </button>
+        </div>
+        <div id="calc-keys" class="calc-keys">
+          <button id="clear-key" class="calc-key" type="button">CLEAR</button>
+          <button id="enter-key" class="calc-key" type="button">&#61;</button>
+        </div>
+        <div id="misc-keys" class="misc-keys">
+          <button id="power-button" class="power-button power-blink">
+            <span class="material-icons">power_settings_new</span>
+          </button>
+          <button id="red-button" class="red-button" type="button"></button>
+          <button id="blue-button" class="blue-button" type="button"></button>
+        </div>
+        <div id="leds" class="leds">
+          <div id="scanner" class="scanner">
+            <div id="lens-background" class="lens-background-off"></div>
+            <div id="lens-element" class="lens-element-off"></div>
+            <div id="glass-dome" class="glass-dome"></div>
+          </div>
+          <div id="red-led-top" class="red-led red-led-off"></div>
+          <div id="yellow-led-top" class="yellow-led yellow-led-off"></div>
+          <div id="green-led-top" class="green-led green-led-off"></div>
+          <div id="power-led-1" class="power-led-off"></div>
+          <div id="power-led-2" class="power-led-off"></div>
+          <div id="power-led-3" class="power-led-off"></div>
+        </div>
+      </div>
+    </main>
+
+    <footer>
+      <!-- FOOTER -->
+    </footer>
+
+    <!-- Content -->
+    <script src="script.js"></script>
+  </body>
+</html>

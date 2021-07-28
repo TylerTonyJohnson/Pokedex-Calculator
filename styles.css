@@ -1,0 +1,540 @@
+/* Fix shadows so they are consistent on all buttons */
+
+@font-face {
+  font-family: "GameBoyFont";
+  src: url(assets/fonts/GameBoy.ttf);
+}
+
+:root {
+  --font: #ddd;
+  --background: #262c3b;
+
+  --color-screen-dark: #23181c;
+  --font-screen-dark: white;
+  --color-screen-green: #749733;
+  --color-pokedex: #fc2834;
+  --color-pad: #2c2831;
+
+  --color-num-key: #4192df;
+  --font-screen-blue: black;
+  --color-decor-white: #eef2d9;
+  --color-shadow-dark: rgba(0, 0, 0, 0.75);
+  --color-shadow-normal: rgba(0, 0, 0, 0.5);
+  --color-shadow-light: rgba(150, 150, 150, 0.25);
+  --color-button-active: rgba(255, 255, 255, 0.75);
+
+  --color-red-led-off: radial-gradient(circle at 30% 30%, #7c1414, #5e1616);
+  --color-red-led-on: radial-gradient(circle at 50% 50%, #ffffff, #ff4e4e);
+  --color-yellow-led-off: radial-gradient(circle at 30% 30%, #a0a001, #777701);
+  --color-yellow-led-on: radial-gradient(circle at 50% 50%, #ffff9e, #ffff00);
+  --color-green-led-off: radial-gradient(circle at 30% 30%, #406910, #253601);
+  --color-green-led-on: radial-gradient(circle at 50% 50%, #cbff8f, #aef324);
+  --color-power-led-on: radial-gradient(circle at 50% 50%, #ff5757, #ff0101);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+html {
+  font-family: Helvetica, arial;
+  font-weight: 900;
+  font-size: 125%;
+  line-height: 1.6;
+  background-color: var(--background);
+  color: var(--font);
+}
+
+header {
+  height: 150px;
+}
+
+.pokedex {
+  display: flex;
+  position: relative;
+  width: max-content;
+  margin: auto;
+  user-select: none;
+}
+
+.pokedex-body {
+  margin: auto;
+  position: absolute;
+}
+
+.result-screen,
+.expression-screen, 
+.green-screen {
+  font-family: "GameBoyFont";
+  position: absolute;
+  border-radius: 4px;
+  box-shadow: 0px 0px 3px 3px var(--color-shadow-normal),
+    inset 2px 2px 3px 1px var(--color-shadow-dark),
+    inset 1px 1px 2px 1px var(--color-shadow-light),
+    inset -1px -1px 3px 1px var(--color-shadow-dark),
+    inset -1px -1px 2px 1px var(--color-shadow-light);
+  overflow: hidden;
+}
+
+.result-screen {
+  width: 200px;
+  height: 150px;
+  left: 67px;
+  top: 174px;
+  text-align: right;
+  padding: 10px;
+  background: var(--color-screen-dark);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.expression-screen {
+  width: 263px;
+  height: 71px;
+  left: 411px;
+  top: 163px;
+  padding: 10px;
+  background: var(--color-screen-dark);
+  word-break: break-all;
+}
+
+.green-screen {
+  width: 90px;
+  height: 76px;
+  left: 100px;
+  top:  390px;
+  background: var(--color-screen-green);
+  display: flex;
+}
+
+.pokemap {
+  width: 100%;
+  opacity: 50%;
+  margin: auto;
+  visibility: hidden;
+}
+
+#power-button {
+  width: 36px;
+  height: 36px;
+  left: 30px;
+  top: 370px;
+  border-radius: 50%;
+  border: solid var(--color-shadow-light) 2px;
+}
+
+.power-blink {
+  animation: power-glow 1s ease-in-out infinite alternate;
+}
+
+@keyframes power-glow {
+  from{text-shadow: 0px 0px 10px 10px white;}
+  to{text-shadow: 0px 0px 5px white;}
+}
+
+.red-button,
+.blue-button {
+  width: 36px;
+  height: 8px;
+  position: absolute;
+  top: 365px;
+  border: solid var(--color-shadow-light) 2px;
+  border-radius: 2px;
+}
+
+.red-button {
+  left: 94px;
+  background: rgb(194, 24, 24);
+}
+
+.blue-button {
+  left: 160px;
+  background: rgb(32, 73, 128);
+}
+
+.num-keys {
+  width: 262px;
+  height: 71px;
+  left: 412px;
+  top: 254px;
+  position: absolute;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  border-radius: 6px;
+}
+
+.num-key {
+  background: var(--color-num-key);
+  border: solid var(--color-shadow-normal) 1px;
+  position: relative;
+  z-index: 2;
+  font: inherit;
+}
+
+.num-key:enabled {
+  color: var(--color-decor-white);
+}
+
+.num-key::before,
+.op-key::before, 
+.power-button::before,
+.arrow-key::before,
+.calc-key::before, 
+.red-button::before, 
+.blue-button::before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+  inset: 0px 0px 0px 0px;
+  box-shadow: 2px 2px 5px 2px var(--color-shadow-dark);
+  z-index: 1;
+}
+
+.num-key:hover,
+.arrow-key:hover,
+.op-key:hover,
+.calc-key:hover, 
+.power-button:hover, 
+.red-button:hover, 
+.blue-button:hover {
+  filter: brightness(125%);
+}
+
+.num-key:active,
+.num-key:active::before,
+.arrow-key:active,
+.arrow-key:active::before,
+.op-key:active,
+.op-key:active::before,
+.calc-key:active,
+.calc-key:active::before,
+.power-button:active,
+.power-button:active::before,
+.red-button:active,
+.blue-button:active,
+.red-button:active::before,
+.blue-button:active::before {
+  box-shadow: none;
+}
+
+#num-key-1 {
+  border-radius: 6px 0px 0px 0px;
+}
+
+#num-key-5 {
+  border-radius: 0px 6px 0px 0px;
+}
+
+#num-key-6 {
+  border-radius: 0px 0px 0px 6px;
+}
+
+#num-key-0 {
+  border-radius: 0px 0px 6px 0px;
+}
+
+span {
+  margin: auto;
+}
+
+.arrow-key,
+.calc-key,
+.power-button {
+  position: absolute;
+  background: var(--color-pad);
+  font: inherit;
+  border: solid var(--color-shadow-light) 2px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.arrow-key:enabled,
+.calc-key:enabled, 
+.power-button:enabled {
+  color: white;
+}
+
+.arrow-key {
+  width: 40px;
+  height: 30px;
+  border-radius: 50%;
+}
+
+#back-key {
+  left: 585px;
+  top: 336px;
+}
+
+#period-key {
+  left: 632px;
+  top: 336px;
+}
+
+.calc-key {
+  width: 120px;
+  height: 35px;
+  border-radius: 6px;
+}
+
+#clear-key {
+  left: 412px;
+  top: 431px;
+}
+
+#enter-key {
+  left: 552px;
+  top: 431px;
+}
+
+.op-keys {
+  width: 150px;
+  height: 40px;
+  left: 412px;
+  top: 360px;
+  position: absolute;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.op-key {
+  background: var(--color-decor-white);
+  border: solid var(--color-shadow-normal) 1px;
+  font: inherit;
+  position: relative;
+  z-index: 2;
+}
+
+#plus-key {
+  border-radius: 6px 0px 0px 6px;
+}
+
+#divide-key {
+  border-radius: 0px 6px 6px 0px;
+}
+
+#scanner {
+  position: absolute;
+  background: conic-gradient(from 270deg, 
+    #A8A9AD,#D8D8D8, #B5B7BB,  
+    #757575, #AFB1AE, #A8A9AD
+  );
+  width: 80px;
+  height: 80px;
+  top: 22px;
+  left: 27px;
+  border-radius: 50%;
+  box-shadow: 2px 2px 5px 2px var(--color-shadow-dark),
+    inset 1px 1px 2px 1px var(--color-shadow-light);
+  display: flex;
+  
+}
+
+#lens-background {
+  position: relative;
+  height: 80%;
+  width: 80%;
+  border-radius: inherit;
+  margin-left: 10%;
+  margin-top: 10%;
+}
+
+.lens-background-off {
+  background: rgb(0, 0, 0);
+}
+
+.lens-background-on {
+  background: rgb(0, 140, 255);
+}
+
+#lens-element {
+  width: 80%;
+  height: 80%;
+  margin-left: -80%;
+  margin-top: 10%;
+  border-radius: inherit;
+  position: relative;
+  background: radial-gradient(circle at 50% 100%, rgba(50, 50, 50,0.25), rgba(10, 10, 10,0.4) 60%, rgba(0, 0, 0,.75) 100%);
+}
+
+.lens-element-off {
+  animation: none;
+}
+
+.lens-element-on {
+  animation: spin 6s linear infinite;
+}
+
+@keyframes spin {
+  100% {transform: rotate(360deg);}
+}
+
+#glass-dome {
+  width: 80%;
+  height: 80%;
+  margin-top: 10%;
+  margin-left: -80%;
+  border-radius: inherit;
+  position: relative;
+}
+
+.glass-dome::before {
+  content: "";
+  position: absolute;
+  background: radial-gradient(circle at 50% 120%, rgba(255, 154, 154, 0.705), rgba(10, 48, 83, 0) 70%);
+  border-radius: 50%;
+  bottom: 2.5%;
+  left: 5%;
+  opacity: 0.6;
+  height: 100%;
+  width: 90%;
+  z-index: 2;
+}
+
+.glass-dome::after {
+  content: "";
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 5%;
+  left: 10%;
+  border-radius: 50%;
+  background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.8) 14%, rgba(255, 255, 255, 0) 24%);
+  transform: translateX(-30%) translateY(-30%) skewX(-20deg);
+  filter: blur(4px);
+}
+
+.red-led,
+.yellow-led,
+.green-led {
+  position: absolute;
+  height: 16px;
+  width: 16px;
+  top: 16px;
+  border-radius: 50%;
+  border: solid var(--color-shadow-dark) 1px;
+  box-shadow: 0px 0px 2px 1px var(--color-shadow-normal);
+}
+
+.red-led::before,
+.yellow-led::before,
+.green-led::before {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  top: 0px;
+  left: 0px;
+  border-radius: inherit;
+}
+
+#red-led-top {
+  left: 120px;
+}
+
+.red-led-off {
+  background: var(--color-red-led-off);
+}
+
+.red-led-blink {
+  animation: redBlink 0.25s infinite alternate ease;
+}
+
+@keyframes redBlink {
+  from {
+    background: var(--color-red-led-off);
+    box-shadow: 0px 0px 2px 1px var(--color-shadow-normal);}
+  to {
+    background: var(--color-red-led-on);
+    box-shadow: #ff3c00 0px 0px 16px 3px;
+  }
+}
+
+#yellow-led-top {
+  left: 155px;
+}
+
+.yellow-led-off {
+  background: radial-gradient(circle at 30% 30%, #a0a001, #777701);
+}
+
+.yellow-led-blink {
+  animation: yellowBlink 0.5s infinite alternate ease;
+}
+
+@keyframes yellowBlink {
+  from {
+    background: var(--color-yellow-led-off);
+    box-shadow: 0px 0px 2px 1px var(--color-shadow-normal);}
+  to {
+    background: var(--color-yellow-led-on);
+    box-shadow: #ff0 0px 0px 16px 3px;
+  }
+}
+
+#green-led-top {
+  left: 190px;
+}
+
+.green-led-off {
+  background: radial-gradient(circle at 30% 30%, #406910, #253601);
+}
+
+.green-led-blink {
+  animation: greenBlink 1s infinite alternate ease;
+}
+
+@keyframes greenBlink {
+  from {
+    background: var(--color-green-led-off);
+    box-shadow: 0px 0px 2px 1px var(--color-shadow-normal);}
+  to {
+    background: var(--color-green-led-on);
+    box-shadow: #89ff00 0px 0px 16px 3px;
+  }
+}
+
+#power-led-1,
+#power-led-2,
+#power-led-3 {
+  position: absolute;
+  border-radius: 50%;
+  border: solid var(--color-shadow-dark) 1px;
+}
+
+#power-led-1 {
+  height: 16px;
+  width: 16px;
+  left: 70px;
+  top: 328px;
+}
+
+#power-led-2 {
+  height: 8px;
+  width: 8px;
+  left: 140px;
+  top: 159px;
+}
+
+#power-led-3 {
+  height: 8px;
+  width: 8px;
+  left: 180px;
+  top: 159px;
+}
+
+.power-led-off {
+  background: var(--color-screen-dark);
+  box-shadow: 0px 0px 2px 1px var(--color-shadow-normal);
+}
+
+.power-led-on {
+  background: var(--color-power-led-on);
+  box-shadow: #ff3c00 0px 0px 10px 3px;
+}
